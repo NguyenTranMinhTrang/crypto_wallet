@@ -7,6 +7,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Home, Portfolio, Market, Profile } from "../screens"
 import { COLORS, icons } from "../constants";
 import { TabIcon } from "../components";
+import actions from "../redux/actions";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +29,12 @@ const TabBarCustomButton = ({ children, onPress }) => {
 
 const Tabs = () => {
 
+    const isVisible = useSelector((state) => state.tabReducer.isVisible);
+
+    const onClickTabButtonTradeHandler = () => {
+        actions.setTradeAbility(!isVisible);
+    }
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -44,13 +52,22 @@ const Tabs = () => {
                 component={Home}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return (
-                            <TabIcon
-                                focused={focused}
-                                icon={icons.home}
-                                label="Home"
-                            />
-                        )
+                        if (!isVisible) {
+                            return (
+                                <TabIcon
+                                    focused={focused}
+                                    icon={icons.home}
+                                    label="Home"
+                                />
+                            )
+                        }
+                    }
+                }}
+                listeners={{
+                    tabPress: e => {
+                        if (isVisible) {
+                            e.preventDefault();
+                        }
                     }
                 }}
             />
@@ -59,13 +76,22 @@ const Tabs = () => {
                 component={Portfolio}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return (
-                            <TabIcon
-                                focused={focused}
-                                icon={icons.briefcase}
-                                label="Portfolio"
-                            />
-                        )
+                        if (!isVisible) {
+                            return (
+                                <TabIcon
+                                    focused={focused}
+                                    icon={icons.briefcase}
+                                    label="Portfolio"
+                                />
+                            )
+                        }
+                    }
+                }}
+                listeners={{
+                    tabPress: e => {
+                        if (isVisible) {
+                            e.preventDefault();
+                        }
                     }
                 }}
             />
@@ -86,7 +112,7 @@ const Tabs = () => {
                     tabBarButton: (props) => (
                         <TabBarCustomButton
                             {...props}
-                            onPress={() => console.log("Trade")}
+                            onPress={() => onClickTabButtonTradeHandler()}
                         />
                     )
 
@@ -97,13 +123,22 @@ const Tabs = () => {
                 component={Market}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return (
-                            <TabIcon
-                                focused={focused}
-                                icon={icons.market}
-                                label="Market"
-                            />
-                        )
+                        if (!isVisible) {
+                            return (
+                                <TabIcon
+                                    focused={focused}
+                                    icon={icons.market}
+                                    label="Market"
+                                />
+                            )
+                        }
+                    }
+                }}
+                listeners={{
+                    tabPress: e => {
+                        if (isVisible) {
+                            e.preventDefault();
+                        }
                     }
                 }}
             />
@@ -112,13 +147,22 @@ const Tabs = () => {
                 component={Profile}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return (
-                            <TabIcon
-                                focused={focused}
-                                icon={icons.profile}
-                                label="Profile"
-                            />
-                        )
+                        if (!isVisible) {
+                            return (
+                                <TabIcon
+                                    focused={focused}
+                                    icon={icons.profile}
+                                    label="Profile"
+                                />
+                            )
+                        }
+                    }
+                }}
+                listeners={{
+                    tabPress: e => {
+                        if (isVisible) {
+                            e.preventDefault();
+                        }
                     }
                 }}
             />

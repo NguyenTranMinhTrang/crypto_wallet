@@ -3,17 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import Tabs from './app/navigation/tabs';
-import { createStore, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import rootReducer from './app/stores/rootReducer';
+import store from './app/redux/store';
+
 
 const Stack = createNativeStackNavigator();
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk)
-)
 
 const App = () => {
 
