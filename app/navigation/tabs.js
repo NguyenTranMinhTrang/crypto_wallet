@@ -103,7 +103,11 @@ const Tabs = () => {
                         return (
                             <TabIcon
                                 focused={focused}
-                                icon={icons.trade}
+                                icon={isVisible ? icons.close : icons.trade}
+                                iconStyle={isVisible ? {
+                                    height: 15,
+                                    width: 15
+                                } : null}
                                 label="Trade"
                                 isTrade={true}
                             />
