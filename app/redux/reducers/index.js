@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 import tabReducer from "./tabReducer";
+import marketReducer from "./marketReducer";
 import types from "../types";
 
 const appReducer = combineReducers({
     tabReducer,
+    marketReducer
 });
 
 const rootReducer = (state, action) => {
