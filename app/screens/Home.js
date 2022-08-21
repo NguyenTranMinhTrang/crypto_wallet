@@ -15,15 +15,20 @@ const Home = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-            actions.getHoldings(holdings = dummyData.holdings);
+            actions.getCoinMarket();
         }, [])
     )
 
 
     return (
         <MainLayout>
-            <View>
-                <Text>Home</Text>
+            <View
+                style={{
+                    flex: 1,
+                    backgroundColor: COLORS.black
+                }}
+            >
+
             </View>
         </MainLayout>
     )

@@ -33,7 +33,6 @@ export const getHoldings = (holdings = [], currency = "usd", orderBy = "market_c
         }
     }).then((response) => {
         if (response.status == 200) {
-            console.log(response);
             let myHoldings = response.data.map((item) => {
                 let coin = holdings.find((a) => a.id == item.id);
                 let price7d = item.current_price / (1 + item.price_change_percentage_7d_in_currency * 0.01);
@@ -92,7 +91,7 @@ export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", spa
         }
     })
         .then((response) => {
-            console.log(response);
+            console.log("Coin market: ", response);
             if (response.state == 200) {
                 dispatch(getCoinMarketSuccess(response.data));
             }
