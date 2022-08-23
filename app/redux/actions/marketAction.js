@@ -4,15 +4,18 @@ import store from "../store";
 
 const { dispatch } = store;
 
+const sum = () => {
+    return 1 + 1;
+}
 
 // Holding / My Holdings
 export const getHoldingsBegin = () => ({
     type: types.GET_HOLDING_BEGIN
 });
 
-export const getHoldingsSuccess = (myHoladings) => ({
+export const getHoldingsSuccess = (myHoldings) => ({
     type: types.GET_HOLDING_SUCCESS,
-    payload: { myHoladings }
+    payload: { myHoldings }
 });
 
 export const getHoldingsFailure = (error) => ({
@@ -35,24 +38,29 @@ export const getHoldings = (holdings = [], currency = "usd", orderBy = "market_c
         if (response.status == 200) {
             let myHoldings = response.data.map((item) => {
                 let coin = holdings.find((a) => a.id == item.id);
-                let price7d = item.current_price / (1 + item.price_change_percentage_7d_in_currency * 0.01);
-                return {
-                    id: item.id,
-                    symbol: item.symbol,
-                    name: item.name,
-                    image: item.image,
-                    current_price: item.current_price,
-                    qty: item.qty,
-                    total: coin.qty * item.current_price,
-                    price_change_percentage_7d_in_currency: item.price_change_percentage_7d_in_currency,
-                    holding_value_change_7d: (item.current_price - price7d) * coin.qty,
-                    sparkline_in_7d: {
-                        value: item.sparkline_in_7d.price.map((price) => {
-                            return price * coin.qty;
-                        })
+                if (coin) {
+                    let price7d = item.current_price / (1 + item.price_change_percentage_7d_in_currency * 0.01);
+                    return {
+                        id: item.id,
+                        symbol: item.symbol,
+                        name: item.name,
+                        image: item.image,
+                        current_price: item.current_price,
+                        qty: item.qty,
+                        total: coin.qty * item.current_price,
+                        price_change_percentage_7d_in_currency: item.price_change_percentage_7d_in_currency,
+                        holding_value_change_7d: (item.current_price - price7d) * coin.qty,
+                        sparkline_in_7d: {
+                            value: item.sparkline_in_7d.price.map((price) => {
+                                return price * coin.qty;
+                            })
+                        }
                     }
-
                 }
+                else {
+                    return null;
+                }
+
             });
 
             dispatch(getHoldingsSuccess(myHoldings));
@@ -91,8 +99,7 @@ export const getCoinMarket = (currency = "usd", orderBy = "market_cap_desc", spa
         }
     })
         .then((response) => {
-            console.log("Coin market: ", response);
-            if (response.state == 200) {
+            if (response.status == 200) {
                 dispatch(getCoinMarketSuccess(response.data));
             }
             else {
